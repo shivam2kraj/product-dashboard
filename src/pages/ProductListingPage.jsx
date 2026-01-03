@@ -18,7 +18,6 @@ export default function ProductListingPage() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Apply filtering & search
   const filteredProducts = useMemo(() => {
     let list = [...products];
 
@@ -32,7 +31,6 @@ export default function ProductListingPage() {
       list = list.filter((p) => p.category === category);
     }
 
-    // Sorting
     list.sort((a, b) =>
       sort === "asc" ? a.price - b.price : b.price - a.price
     );
@@ -41,17 +39,32 @@ export default function ProductListingPage() {
   }, [products, search, category, sort]);
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Products</h1>
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Products
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Browse and manage available products
+        </p>
+      </div>
 
-      <SearchBar />
-      <FilterBar />
+      {/* Filters */}
+      <div className="bg-white rounded-lg shadow-sm border p-4 space-y-4">
+        <SearchBar />
+        <FilterBar />
+      </div>
 
+      {/* Content */}
       {status === "loading" && <Loader />}
       {status === "succeeded" && (
         <ProductGrid products={filteredProducts} />
       )}
-      {status === "failed" && <p>Error loading products.</p>}
+      {status === "failed" && (
+        <p className="text-red-500">Error loading products.</p>
+      )}
     </div>
   );
 }
+

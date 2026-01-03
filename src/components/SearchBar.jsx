@@ -9,7 +9,6 @@ export default function SearchBar() {
 
   const debouncedSearch = useDebounce(value, 500);
 
-  // ✅ Correct hook for side-effect
   useEffect(() => {
     dispatch(setSearch(debouncedSearch));
   }, [debouncedSearch, dispatch]);
@@ -17,10 +16,15 @@ export default function SearchBar() {
   return (
     <input
       type="text"
-      placeholder="Search products..."
-      className="border rounded p-2 w-full"
+      placeholder="Search products by name..."
+      className="
+        w-full rounded-lg border border-gray-300
+        px-4 py-2 text-sm
+        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+      "
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />
   );
 }
+
